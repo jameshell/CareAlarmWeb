@@ -12,6 +12,8 @@ import {
   ListItemText,
   IconButton,
   Box,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -28,11 +30,15 @@ const drawerWidth = 240;
 interface NavbarProps {
   mobileOpen: boolean;
   handleDrawerToggle: () => void;
+  desktopOpen: boolean;
+  setDesktopOpen: (open: boolean) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ mobileOpen, handleDrawerToggle }) => {
+const Navbar: React.FC<NavbarProps> = ({ mobileOpen, handleDrawerToggle, desktopOpen, setDesktopOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
@@ -94,8 +100,8 @@ const Navbar: React.FC<NavbarProps> = ({ mobileOpen, handleDrawerToggle }) => {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: isDesktop && desktopOpen ? `calc(100% - ${drawerWidth}px)` : '100%',
+          ml: isDesktop && desktopOpen ? `${drawerWidth}px` : 0,
           backgroundColor: 'white',
           color: 'primary.main',
           boxShadow: 1,
@@ -106,8 +112,14 @@ const Navbar: React.FC<NavbarProps> = ({ mobileOpen, handleDrawerToggle }) => {
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            onClick={() => {
+              if (isDesktop) {
+                setDesktopOpen(!desktopOpen);
+              } else {
+                handleDrawerToggle();
+              }
+            }}
+            sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
@@ -119,7 +131,10 @@ const Navbar: React.FC<NavbarProps> = ({ mobileOpen, handleDrawerToggle }) => {
 
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{
+          width: isDesktop && desktopOpen ? drawerWidth : 0,
+          flexShrink: { sm: 0 }
+        }}
       >
         <Drawer
           variant="temporary"
@@ -138,7 +153,7 @@ const Navbar: React.FC<NavbarProps> = ({ mobileOpen, handleDrawerToggle }) => {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
+            display: { xs: 'none', sm: desktopOpen ? 'block' : 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
           open

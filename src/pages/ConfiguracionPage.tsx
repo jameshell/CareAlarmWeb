@@ -5,11 +5,16 @@ import {
   Card,
   CardContent,
   Toolbar,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import Navbar from '../components/Navbar';
 
 const ConfiguracionPage: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [desktopOpen, setDesktopOpen] = useState(true);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -17,14 +22,14 @@ const ConfiguracionPage: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+      <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} desktopOpen={desktopOpen} setDesktopOpen={setDesktopOpen} />
 
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - 240px)` },
+          width: isDesktop && desktopOpen ? `calc(100% - 240px)` : '100%',
           backgroundColor: '#f5f5f5',
           minHeight: '100vh',
         }}
