@@ -23,6 +23,14 @@ const LoginPage: React.FC = () => {
     navigate('/register');
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Simple validation - in a real app you'd validate credentials
+    if (email && password) {
+      navigate('/dashboard');
+    }
+  };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -54,7 +62,7 @@ const LoginPage: React.FC = () => {
             <Typography component="h2" variant="subtitle1" sx={{ mb: 6, color: 'text.secondary' }}>
               Iniciar Sesion
             </Typography>
-            <Box component="form" sx={{ width: '100%' }}>
+            <Box component="form" sx={{ width: '100%' }} onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
                 required
