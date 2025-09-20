@@ -177,41 +177,10 @@ La aplicación incluye las siguientes secciones:
 5. **Reportes** - Gráficos y estadísticas del sistema
 6. **Configuración** - Panel de configuración del sistema
 
-## 🔧 Configuración Adicional
 
-### Variables de Entorno
-
-Si necesitas configurar variables de entorno, crea un archivo `.env` en la raíz del proyecto:
-
-```env
-VITE_API_URL=http://localhost:3001/api
-VITE_APP_TITLE=CareAlarmWeb
 ```
-
-### Personalización del Tema
-
-El tema de Material-UI se puede personalizar en `src/App.tsx` modificando el `ThemeProvider`.
-
-## 🤝 Contribuir
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -am 'Agrega nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
 ## 📝 Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 📞 Soporte
-
-Si tienes preguntas o problemas:
-
-1. Revisa la documentación en este README
-2. Verifica los issues existentes en GitHub
-3. Crea un nuevo issue si es necesario
-
----
 
 **Desarrollado con ❤️ para la gestión eficiente de alarmas médicas**
