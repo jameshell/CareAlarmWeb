@@ -2,22 +2,39 @@ import React, { useState } from 'react';
 import {
   Box,
   Typography,
-  Card,
-  CardContent,
   Toolbar,
   useTheme,
   useMediaQuery,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Paper,
 } from '@mui/material';
+import { Save as SaveIcon } from '@mui/icons-material';
 import Navbar from '../components/Navbar';
 
 const ConfiguracionPage: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState(true);
+  const [twoFactorAuth, setTwoFactorAuth] = useState('Requerido');
+  const [passwordPolicy, setPasswordPolicy] = useState('Fuerte');
+  const [rolePermissions, setRolePermissions] = useState('Sin Asignar');
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleSave = () => {
+    // Handle save logic here
+    console.log('Configuración guardada:', {
+      twoFactorAuth,
+      passwordPolicy,
+      rolePermissions,
+    });
   };
 
   return (
@@ -40,29 +57,83 @@ const ConfiguracionPage: React.FC = () => {
           Configuración
         </Typography>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {[1, 2, 3].map((index) => (
-            <Card
-              key={index}
+        <Paper sx={{ p: 4, maxWidth: 800, mx: 'auto' }}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                md: 'repeat(2, 1fr)'
+              },
+              gap: 3,
+              mb: 4
+            }}
+          >
+            {/* Two Factor Authentication */}
+            <FormControl fullWidth>
+              <InputLabel id="two-factor-label">Two Factor Authentication</InputLabel>
+              <Select
+                labelId="two-factor-label"
+                value={twoFactorAuth}
+                label="Two Factor Authentication"
+                onChange={(e) => setTwoFactorAuth(e.target.value)}
+              >
+                <MenuItem value="Requerido">Requerido</MenuItem>
+                <MenuItem value="Opcional">Opcional</MenuItem>
+                <MenuItem value="Deshabilitado">Deshabilitado</MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* Password Policy */}
+            <FormControl fullWidth>
+              <InputLabel id="password-policy-label">Política de Contraseñas</InputLabel>
+              <Select
+                labelId="password-policy-label"
+                value={passwordPolicy}
+                label="Política de Contraseñas"
+                onChange={(e) => setPasswordPolicy(e.target.value)}
+              >
+                <MenuItem value="Fuerte">Fuerte</MenuItem>
+                <MenuItem value="Media">Media</MenuItem>
+                <MenuItem value="Básica">Básica</MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* Role Permissions */}
+            <FormControl fullWidth>
+              <InputLabel id="role-permissions-label">Permisos por Rol</InputLabel>
+              <Select
+                labelId="role-permissions-label"
+                value={rolePermissions}
+                label="Permisos por Rol"
+                onChange={(e) => setRolePermissions(e.target.value)}
+              >
+                <MenuItem value="Sin Asignar">Sin Asignar</MenuItem>
+                <MenuItem value="Administrador">Administrador</MenuItem>
+                <MenuItem value="Médico">Médico</MenuItem>
+                <MenuItem value="Enfermera">Enfermera</MenuItem>
+                <MenuItem value="Usuario">Usuario</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
+          {/* Save Button */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+            <Button
+              variant="contained"
+              startIcon={<SaveIcon />}
+              onClick={handleSave}
               sx={{
-                backgroundColor: '#e8e4f3',
-                boxShadow: 1,
+                px: 4,
+                py: 1.5,
+                fontSize: '1rem',
+                fontWeight: 600,
               }}
             >
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Configuración {index}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Tipo: Sistema
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Estado: Activo
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </Box>
+              Guardar
+            </Button>
+          </Box>
+        </Paper>
       </Box>
     </Box>
   );
